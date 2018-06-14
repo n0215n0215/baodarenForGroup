@@ -31,6 +31,8 @@ app.get('/web', function (req, res) {
 });
 
 function handleEvent(event) {
+    console.log(event);
+    if (event.source.groupId =="C9d4217ab1336abd7d747c53bf7480a66"){
     switch (event.type) {
         case 'join':
             break
@@ -45,7 +47,6 @@ function handleEvent(event) {
                 case 'text':
                     switch (true) {                        
                         case (event.message.text.indexOf("抽") >= 0):
-                            //replyMessage("還沒好啦！不要一直抽抽抽。", replyType.text, event);
                             var Randurl = url + getRandomIntInclusive(1, 277);
                             request(Randurl, (err, res, body) => {
                                 const $ = cheerio.load(body);
@@ -54,7 +55,6 @@ function handleEvent(event) {
                                     posts.push($(this).attr("href"))
                                 })
                                 Randurl = posts[getRandomIntInclusive(0, posts.length - 1)];
-                                //                                console.log(Randurl);
                                 request(Randurl, (err, res, body) => {
                                     const $ = cheerio.load(body);
                                     let img = [];
@@ -62,7 +62,6 @@ function handleEvent(event) {
                                         img.push($(this).attr("src"))
                                     })
                                     var rplink = img[getRandomIntInclusive(0, img.length - 1)]
-                                    //console.log(rplink);
                                     pushMessage("https:" + rplink, replyType.image, event);
                                 })
                             })
@@ -148,6 +147,7 @@ function handleEvent(event) {
             }
             //console.log(UserInfo);
             break
+            }
         }
 }
 
